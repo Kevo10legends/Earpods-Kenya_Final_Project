@@ -3,9 +3,9 @@
 {% block content %}
 
 
-    
-    
-    
+
+
+
 
     <!-- Start All Title Box -->
     <div class="all-title-box">
@@ -66,34 +66,48 @@
 							<li>
 								<div class="form-group quantity-box">
 									<label class="control-label">Quantity</label>
-                                    <label for="qty-cart"></label><input class="form-control" id="qty-cart" value="0" min="0" max="20" type="number">
+                                    <select class="form-select form-control" id="qty-cart" >
+                                      <option value="1">1</option>
+                                      <option value="2">2</option>
+                                      <option value="3">3</option>
+                                      <option value="1">4</option>
+                                      <option value="2">5</option>
+                                      <option value="3">6</option>
+                                      <option value="3">7</option>
+                                      <option value="1">8</option>
+                                      <option value="2">9</option>
+                                      <option value="3">10</option>                                        
+                                    </select>
+                                    
+{#                                    <label for="qty-cart"></label><input class="form-control" id="qty-cart" value="0" min="0" max="20" type="number">#}
 								</div>
 							</li>
 						</ul>
 
 						<div class="price-box-bar">
 							<div class="cart-and-bay-btn">
-								<a class="btn hvr-hover" data-fancybox-close="" href="#">Buy New</a>
-								<a class="btn hvr-hover" data-fancybox-close="" href="#" type="button"  >Add to cart</a><br>
-                                ID:{{ product.id }}<br>
-                                ID:{{ product.id }}<br>
+								
+{#								<a class="btn hvr-hover" data-fancybox-close="" href="#" type="button"  >Add to cart</a>#}
                                 <button type="button" id="add-cart" value="{{ product.id }}" class="btn hvr-hover">ADD CART</button>
+                                <br><br>
+                                
+                                <a class="btn hvr-hover" data-fancybox-close="" href="{% url 'gallery' %}">Add More Products From Gallery</a>&nbsp; <a class="btn hvr-hover" data-fancybox-close="" href="{% url 'cart_summary' %}">View My Cart</a>
 							</div>
 						</div>
 
-						<div class="add-to-btn">
-							<div class="add-comp">
-								<a class="btn hvr-hover" href="#"><i class="fas fa-heart"></i> Add to wishlist</a>
-								<a class="btn hvr-hover" href="#"><i class="fas fa-sync-alt"></i> Add to Compare</a>
-							</div>
-							<div class="share-bar">
-								<a class="btn hvr-hover" href="#"><i class="fab fa-facebook" aria-hidden="true"></i></a>
-								<a class="btn hvr-hover" href="#"><i class="fab fa-google-plus" aria-hidden="true"></i></a>
-								<a class="btn hvr-hover" href="#"><i class="fab fa-twitter" aria-hidden="true"></i></a>
-								<a class="btn hvr-hover" href="#"><i class="fab fa-pinterest-p" aria-hidden="true"></i></a>
-								<a class="btn hvr-hover" href="#"><i class="fab fa-whatsapp" aria-hidden="true"></i></a>
-							</div>
-						</div>
+{#						<div class="add-to-btn">#}
+{#							<div class="add-comp">#}
+{#								<a class="btn hvr-hover" href="#"><i class="fas fa-heart"></i> Add to wishlist</a>#}
+{#								<a class="btn hvr-hover" href="#"><i class="fas fa-sync-alt"></i> Add to Compare</a>#}
+{#							</div>#}
+{#							<div class="share-bar">#}
+{#								<a class="btn hvr-hover" href="#"><i class="fab fa-facebook" aria-hidden="true"></i></a>#}
+{#								<a class="btn hvr-hover" href="#"><i class="fab fa-google-plus" aria-hidden="true"></i></a>#}
+{#								<a class="btn hvr-hover" href="#"><i class="fab fa-twitter" aria-hidden="true"></i></a>#}
+{#								<a class="btn hvr-hover" href="#"><i class="fab fa-pinterest-p" aria-hidden="true"></i></a>#}
+{#								<a class="btn hvr-hover" href="#"><i class="fab fa-whatsapp" aria-hidden="true"></i></a>#}
+{#							</div>#}
+{#						</div>#}
                     </div>
                 </div>
 
@@ -352,13 +366,14 @@
             url: '{% url 'cart_add' %}',
             data:{
                 product_id: $('#add-cart').val(),
-                {#product_qty: $('#qty-cart option:selected').text(),#}
+                product_qty: $('#qty-cart option:selected').text(),
                 csrfmiddlewaretoken: '{{ csrf_token }}',
                 action: 'post'
             },
             success: function(json){
                 {#console.log(json)#}
                 document.getElementById("cart_quantity").textContent = json.qty
+                location.reload();
             },
             error: function (xhr, errmsg, err){
 

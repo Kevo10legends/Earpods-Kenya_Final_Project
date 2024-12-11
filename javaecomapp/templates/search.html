@@ -1,0 +1,76 @@
+ 
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+
+
+
+    <!-- Start All Title Box -->
+    <div class="all-title-box">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>Find Any Product By searching</h2>
+                    <form method="POST" action="{% url 'search' %}">
+                        {% csrf_token %}
+                        <input name="searched" class="form-control" type="text" placeholder="Search"><br>
+                        <button type="submit" class="btn hvr-hover">Search</button>
+                    </form> 
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End All Title Box -->
+
+    <!-- Start Gallery  -->
+    <div class="products-box">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="title-all text-center">
+                        <h1>The Search Results</h1>
+                        <br><br><br>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row special-list">
+            {% if searched %}
+                {% for product in searched %} 
+                
+                <div class="col-lg-3 col-md-6 special-grid bulbs">
+                    <div class="products-single fix">
+                        <div class="box-img-hover">
+                            <div class="type-lb">
+                                <p class="sale">Sale</p>
+                            </div>
+                            <img src="{{ product.image.url }}" class="img-fluid" style="width: 250px; height: 250px; object-fit: cover;"  alt="Image">
+                            <div class="mask-icon">
+                                <ul>
+                                    <li><a href="#" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
+                                    <li><a href="#" data-toggle="tooltip" data-placement="right" title="Compare"><i class="fas fa-sync-alt"></i></a></li>
+                                    <li><a href="#" data-toggle="tooltip" data-placement="right" title="Add to Wishlist"><i class="far fa-heart"></i></a></li>
+                                </ul>
+                                <a class="cart" href="{% url 'product' product.id %}">View The Product</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                {% endfor %}                        
+            {% endif %}  
+            </div>
+        
+        
+        <br><br><br>
+        </div>
+    </div>
+    <!-- End Gallery  -->
+
+
+
+
+{% endblock content %}

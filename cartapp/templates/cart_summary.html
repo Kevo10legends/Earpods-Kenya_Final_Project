@@ -1,9 +1,18 @@
 {% extends 'base.html' %}
 {% load static %}
+
+{% block body_class %}
+no-background
+{% endblock %}
+
 {% block content %}
 
 
 
+
+
+
+<main style="background-image: none;" >
 
     <!-- Start All Title Box -->
     <div class="all-title-box">
@@ -21,12 +30,7 @@
     </div>
     <!-- End All Title Box -->
 
-{% for product in cart_products %}
-    {{ product }}<br>
-
-{% endfor %}
-
-
+    <br><br>
 {#    <!-- Start Cart  -->#}
     <div class="cart-box-main">
         <div class="container">
@@ -42,7 +46,8 @@
                                     <th>Product Name</th>
                                     <th>Price</th>
                                     <th>Quantity</th>
-                                    <th>Total</th>
+{#                                    <th>Total</th>#}
+                                    <th>Update</th>
                                     <th>Remove</th>
                                 </tr>
                             </thead>
@@ -61,82 +66,55 @@
 
                                     </td>
                                     <td class="price-pr">
-                                        <p>Ksh:{{ product.price }}</p>
+                                        <p>Ksh:{{ product.sale_price }}</p>
                                     </td>
-                                    <td class="quantity-box"><input type="number" size="4" value="1" min="0" step="1" class="c-input-text qty text"></td>
-                                    <td class="total-pr">
-                                        <p>$ 80.0</p>
+                                    <td class="quantity-box">
+                                    <select class="form-select form-control" id="select{{ product.id }}" >
+
+                                            {% for key, value in quantities.items%}
+                                                {% if key == product.id|slugify %}
+                                                    <option selected>{{ value }}</option>
+                                                {% endif %}
+                                            {% endfor %}
+
+                                      <option value="1">1</option>
+                                      <option value="2">2</option>
+                                      <option value="3">3</option>
+                                      <option value="4">4</option>
+                                      <option value="5">5</option>
+                                      <option value="6">6</option>
+                                      <option value="7">7</option>
+                                      <option value="8">8</option>
+                                      <option value="9">9</option>
+                                      <option value="10">10</option>
+                                    </select>
+{#                                        <input type="number" size="4" value="1" min="0" step="1" class="c-input-text qty text">#}
+                                    </td>
+{#                                    <td class="total-pr">#}
+{#                                        <p>Ksh:{{ totals }}</p>#}
+{#                                    </td>#}
+                                    <td class="update-box">
+                                        <button type="button" data-index="{{ product.id }}" class=" update-cart">Update</button>
                                     </td>
                                     <td class="remove-pr">
                                         <a href="#">
-									<i class="fas fa-times"></i>
+                                            <button type="button" data-index="{{ product.id }}" class=" delete-product"><i class="fas fa-times"></i></button>
+
 								</a>
                                     </td>
                                 </tr>
 
-
-{##}
-{#                                <tr>#}
-{#                                    <td class="thumbnail-img">#}
-{#                                        <a href="#">#}
-{#									<img class="img-fluid" src="{% static 'images/img-pro-02.jpg' %}" alt="" />#}
-{#								</a>#}
-{#                                    </td>#}
-{#                                    <td class="name-pr">#}
-{#                                        <a href="#">#}
-{#									Lorem ipsum dolor sit amet#}
-{#								</a>#}
-{#                                    </td>#}
-{#                                    <td class="price-pr">#}
-{#                                        <p>$ 60.0</p>#}
-{#                                    </td>#}
-{#                                    <td class="quantity-box"><input type="number" size="4" value="1" min="0" step="1" class="c-input-text qty text"></td>#}
-{#                                    <td class="total-pr">#}
-{#                                        <p>$ 80.0</p>#}
-{#                                    </td>#}
-{#                                    <td class="remove-pr">#}
-{#                                        <a href="#">#}
-{#									<i class="fas fa-times"></i>#}
-{#								</a>#}
-{#                                    </td>#}
-{#                                </tr>#}
-{##}
-{##}
-{##}
-{#                                <tr>#}
-{#                                    <td class="thumbnail-img">#}
-{#                                        <a href="#">#}
-{#									<img class="img-fluid" src="{% static 'images/img-pro-03.jpg' %}" alt="" />#}
-{#								</a>#}
-{#                                    </td>#}
-{#                                    <td class="name-pr">#}
-{#                                        <a href="#">#}
-{#									Lorem ipsum dolor sit amet#}
-{#								</a>#}
-{#                                    </td>#}
-{#                                    <td class="price-pr">#}
-{#                                        <p>$ 30.0</p>#}
-{#                                    </td>#}
-{#                                    <td class="quantity-box"><input type="number" size="4" value="1" min="0" step="1" class="c-input-text qty text"></td>#}
-{#                                    <td class="total-pr">#}
-{#                                        <p>$ 80.0</p>#}
-{#                                    </td>#}
-{#                                    <td class="remove-pr">#}
-{#                                        <a href="#">#}
-{#									<i class="fas fa-times"></i>#}
-{#								</a>#}
-{#                                    </td>#}
-{#                                </tr>#}
-
-
-
                             </tbody>
                         {% endfor %}
-                            There is nothing , add a product
+                            {% else %}
+                            Add Cart
                         {% endif %}
 
 
                         </table>
+
+
+
 
 
                     </div>
@@ -151,16 +129,16 @@
                             <div class="input-group-append">
                                 <button class="btn btn-theme" type="button">Apply Coupon</button>
 
-
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 col-sm-6">
-                    <div class="update-box">
-                        <input value="Update Cart" type="submit">
-                    </div>
-                </div>
+{#                <div class="col-lg-6 col-sm-6">#}
+{#                    <div class="update-box">#}
+{#                        <input value="Update Cart" type="submit">#}
+{#                        <button type="button" data-index="{{ product.id }}" class="btn hvr-hover update-cart">Update</button>#}
+{#                    </div>#}
+{#                </div>#}
             </div>
 
             <div class="row my-5">
@@ -169,30 +147,13 @@
                     <div class="order-box">
                         <h3>Order summary</h3>
                         <div class="d-flex">
-                            <h4>Sub Total</h4>
-                            <div class="ml-auto font-weight-bold"> $ 130 </div>
-                        </div>
-                        <div class="d-flex">
-                            <h4>Discount</h4>
-                            <div class="ml-auto font-weight-bold"> $ 40 </div>
-                        </div>
-                        <hr class="my-1">
-                        <div class="d-flex">
-                            <h4>Coupon Discount</h4>
-                            <div class="ml-auto font-weight-bold"> $ 10 </div>
-                        </div>
-                        <div class="d-flex">
-                            <h4>Tax</h4>
-                            <div class="ml-auto font-weight-bold"> $ 2 </div>
-                        </div>
-                        <div class="d-flex">
                             <h4>Shipping Cost</h4>
                             <div class="ml-auto font-weight-bold"> Free </div>
                         </div>
                         <hr>
                         <div class="d-flex gr-total">
                             <h5>Grand Total</h5>
-                            <div class="ml-auto h5"> $ 388 </div>
+                            <div class="ml-auto h5"> Ksh:{{ totals }} </div>
                         </div>
                         <hr> </div>
                 </div>
@@ -205,4 +166,85 @@
 
     <!-- Start Instagram Feed  -->
 
+
+    #update Cart
+<script>
+    {#check if button pressed#}
+    $(document).on('click','.update-cart', function (e) {
+        e.preventDefault();
+        {#grab product id#}
+        var productid = $(this).data('index');
+        $.ajax({
+            type: 'POST',
+            url: '{% url 'cart_update' %}',
+            data:{
+                product_id: $(this).data('index'),
+                product_qty: $('#select' + productid + ' option:selected').text(),
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: 'post'
+            },
+            success: function(json){
+                {#console.log(json)#}
+                {#document.getElementById("cart_quantity").textContent = json.qty#}
+                location.reload();
+
+            },
+            error: function (xhr, errmsg, err){
+
+            }
+        });
+
+    })
+
+
+</script>
+
+
+
+
+{#    Delete Cart#}
+
+<script>
+    {#check if button pressed#}
+    $(document).on('click','.delete-product ', function (e) {
+        e.preventDefault();
+        {#grab product id#}
+        {#var productid = $(this).data('index');#}
+        $.ajax({
+            type: 'POST',
+            url: '{% url 'cart_delete' %}',
+            data:{
+                product_id: $(this).data('index'),
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: 'post'
+            },
+            success: function(json){
+                {#console.log(json)#}
+                {#document.getElementById("cart_quantity").textContent = json.qty#}
+                location.reload();
+
+            },
+            error: function (xhr, errmsg, err){
+
+            }
+        });
+
+    })
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
 {% endblock content %}
+
+</main>

@@ -5,7 +5,48 @@ from django.contrib import messages
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .forms import SignUpForm
+from .forms import SignUpForm, UpdateUserForm
+
+
+
+
+def update_user(request):
+    if request.user.is_authenticated:
+        current_user = User.objects.get(id=request.user.id)
+        user_form = UpdateUserForm(request.POST or None, instance=current_user)
+
+        if user_form.is_valid():
+            user_form.save()
+
+            login(request, current_user)
+            messages.success(request, 'Your account has been updated!')
+            return redirect('index')
+        return render(request, 'update_user.html', {'user_form': user_form})
+    else:
+        messages.success(request, 'You Must Be Logged In First!!!')
+        return redirect('indexndex')
+
+
+
+
+
+
+def search(request):
+    #Determine if they filled out the form
+    if request.method == "POST":
+        searched = request.POST['searched']
+        #Query the Products DB Model
+        searched = Product.objects.filter(name__icontains=searched)
+        # Test for null
+        if not searched:
+            messages.error(request, 'Sorry the product was not found!!! ..Try Again')
+            return render(request, 'search.html', {})
+        else:
+            return render(request, 'search.html', {'searched': searched})
+    else:
+        return render(request, 'search.html', {})
+
+
 
 
 
@@ -61,8 +102,8 @@ def checkout(request):
     return render(request,'checkout.html')
 
 def gallery(request):
-
-    return render(request,'gallery.html',{})
+    product = Product.objects.all()
+    return render(request,'gallery.html',{'products': product})
 
 def my_account(request):
     return render(request,'my-account.html')

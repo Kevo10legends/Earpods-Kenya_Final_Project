@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+
+
+    <!-- Start All Title Box -->
+    <div class="all-title-box">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>Update your user Profile</h2>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active"> Profile </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End All Title Box -->
+
+    <!-- Start Contact Us  -->
+    <div class="contact-box-main">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-sm-12">
+                    <div class="contact-form-right">
+                            <h2>Enter Your Information</h2>
+                            <p>Please Enter Accurate and correct Information</p>
+                            <form  method="POST" action="{% url 'update_user' %}">
+                                {% csrf_token %}
+
+                                {{ user_form.as_p }}
+                                <br>
+                                <button class="btn hvr-hover"  type="submit">Update Profile</button>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <!-- End Cart -->
+
+    <!-- Start Instagram Feed  -->
+
+{% endblock content %}
